@@ -1,9 +1,12 @@
 // 백엔드의 시작점
 const express = require('express');
 const app = express();
-const port = 5000;
+const path = require('path');
+const cors = require('cors');
+
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+
 const config = require('./config/key');
 
 const {User} = require("./models/User");
@@ -14,22 +17,28 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 //application/json 타입으로 된 것을 분석해서 가져오게 해주는 것
 app.use(bodyParser.json());
-app.use(cookieParser);
+app.use(cookieParser());
 
 const mongoose = require('mongoose');
+
 mongoose.connect(config.mongoURI, {
     userNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false
 }).then(() => console.log('MongoDB Connected...'))
 .catch(err => console.log(err => console.log(err)));
 
+app.use(cors());
 
-app.get('/', (req, res) => {
-  res.send('Hello World! asdfasdfdf')
+app.get("/", (req, res) => {
+  res.send("Hello World! asdfasdfdf");
+});
+
+app.get("/api/hello", (req, res) => {
+  res.send("Hello World! asdfasdfdf");
 });
 
 app.post('/api/users/register', (req, res) => {
   //회원가입시 필요한 정보들을 client에서 가져오면
-  // 그것들을 db에 넣어준다.
+  // 그것들을 d b에 넣어준다.
 
   const user = new User(req.body);
 
@@ -101,6 +110,8 @@ app.get('/api/users/logout', auth, (req, res) => {
       })
     })
 })
+
+const port = 5000;
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
