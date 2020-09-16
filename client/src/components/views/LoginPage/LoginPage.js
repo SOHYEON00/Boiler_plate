@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux'; //dispatch를 이용해 action을 취함 
 import { loginUser } from '../../../_actions/user_action';
-import {withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom'; //에러발생해서 사용
 
 function LoginPage(props) {
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ function LoginPage(props) {
 
     let body = {
       email: Email,
-      password: Password,
+      password: Password
     };
     //임의로 loginUser 페이지를 만들진 않았지만, _action 폴더에 만들어서 사용할 것
     dispatch(loginUser(body)).then((response) => {
